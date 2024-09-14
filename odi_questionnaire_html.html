@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oswestry Disability Index Questionnaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .question-section {
+            margin-bottom: 20px;
+        }
+        .question {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .option {
+            margin-left: 20px;
+        }
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Oswestry Disability Index (ODI) Questionnaire</h1>
+    <p>Please answer the following questions by selecting the option that best applies to you.</p>
+
+    <form id="odiForm">
+        <div class="question-section">
+            <div class="question">Section 1: Pain Intensity</div>
+            <div class="option"><input type="radio" name="q1" value="0"> I have no pain at the moment.</div>
+            <div class="option"><input type="radio" name="q1" value="1"> The pain is very mild at the moment.</div>
+            <div class="option"><input type="radio" name="q1" value="2"> The pain is moderate at the moment.</div>
+            <div class="option"><input type="radio" name="q1" value="3"> The pain is fairly severe at the moment.</div>
+            <div class="option"><input type="radio" name="q1" value="4"> The pain is very severe at the moment.</div>
+            <div class="option"><input type="radio" name="q1" value="5"> The pain is the worst imaginable at the moment.</div>
+        </div>
+
+        <!-- Repeat similar sections for other 9 questions -->
+
+        <div class="question-section">
+            <div class="question">Section 10: Traveling</div>
+            <div class="option"><input type="radio" name="q10" value="0"> I can travel anywhere without pain.</div>
+            <div class="option"><input type="radio" name="q10" value="1"> I can travel anywhere but it gives me extra pain.</div>
+            <div class="option"><input type="radio" name="q10" value="2"> Pain is bad, but I manage journeys over 2 hours.</div>
+            <div class="option"><input type="radio" name="q10" value="3"> Pain restricts me to journeys of less than 1 hour.</div>
+            <div class="option"><input type="radio" name="q10" value="4"> Pain restricts me to short, necessary journeys under 30 minutes.</div>
+            <div class="option"><input type="radio" name="q10" value="5"> Pain prevents me from traveling except to receive treatment.</div>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="calculateScore()">Submit</button>
+
+        <div id="result" class="result"></div>
+    </form>
+
+    <script>
+        function calculateScore() {
+            var totalScore = 0;
+            var maxScore = 50;
+            for (var i = 1; i <= 10; i++) {
+                var radios = document.getElementsByName('q' + i);
+                for (var j = 0; j < radios.length; j++) {
+                    if (radios[j].checked) {
+                        totalScore += parseInt(radios[j].value);
+                        break;
+                    }
+                }
+            }
+            var percentage = (totalScore / maxScore) * 100;
+            var resultText = "Your ODI Score is: " + percentage.toFixed(2) + "%. ";
+            if (percentage <= 20) {
+                resultText += "Minimal disability.";
+            } else if (percentage <= 40) {
+                resultText += "Moderate disability.";
+            } else if (percentage <= 60) {
+                resultText += "Severe disability.";
+            } else if (percentage <= 80) {
+                resultText += "Crippled.";
+            } else {
+                resultText += "Bed-bound or exaggerating symptoms.";
+            }
+            document.getElementById('result').innerText = resultText;
+        }
+    </script>
+
+</body>
+</html>
